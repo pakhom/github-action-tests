@@ -24,7 +24,7 @@ jobs:
       - run: kubectl create ns ${{ github.event.inputs.environment }}
 
       - name: Deploy app
-        run: helm upgrade --install -n ${{ github.event.inputs.environment }} hello .chart
+        run: helm upgrade --install -n ${{ github.event.inputs.environment }} --wait --timeout 180 hello .chart
 
       - name: Check application
         run: |
