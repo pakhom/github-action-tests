@@ -30,7 +30,8 @@ jobs:
         run: |
           helm list -n ${{ github.event.inputs.environment }}
           kubectl get all -n ${{ github.event.inputs.environment }}
-          kubectl port-forward svc/hello -n ${{ github.event.inputs.environment }} &
+          kubectl port-forward svc/hello -n ${{ github.event.inputs.environment }} 8080:8080 &
+          sleep 10
           curl 127.0.0.1:8080
 
 

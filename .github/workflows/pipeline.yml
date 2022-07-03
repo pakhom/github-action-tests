@@ -77,7 +77,8 @@ jobs:
         run: |
           helm list -n default
           kubectl get all -n default
-          kubectl port-forward svc/hello &
+          kubectl port-forward svc/hello 8080:8080 &
+          sleep 10
           curl 127.0.0.1:8080
 
 
