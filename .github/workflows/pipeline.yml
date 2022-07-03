@@ -73,4 +73,11 @@ jobs:
       - name: Deploy app
         run: helm upgrade --install -n default hello .chart
 
+      - name: Check application
+        run: |
+          helm list -n default
+          kubectl get all -n default
+          minikube service hello --url
+          curl 127.0.0.1:8080
+
 
