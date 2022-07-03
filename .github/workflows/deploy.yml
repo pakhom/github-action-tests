@@ -27,7 +27,7 @@ jobs:
         run: echo SHA_SHORT=`(git rev-parse --short HEAD)` >> $GITHUB_ENV
 
       - name: Deploy app
-        run: helm upgrade --install --set image.tag=${{ env.SHA_SHORT }}  -n ${{ github.event.inputs.environment }} --wait --timeout 180 hello .chart
+        run: helm upgrade --install --set image.tag=${{ env.SHA_SHORT }}  -n ${{ github.event.inputs.environment }} --wait --timeout 300 hello .chart
 
       - name: Check application
         run: |
