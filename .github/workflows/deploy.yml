@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Set environment (dev/stage)'
+        required: true
+        default: 'dev'
+
+jobs:
+  deploy:
+    name: Deploy service
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - name: Checkout...
+        uses: actions/checkout@v2
+
+      - uses: medyagh/setup-minikube@master
+
+      - uses: azure/setup-helm@v3
+
+      - run: kubectl create ns ${{ github.event.inputs.environment }}
+
+      - name: Deploy app
+        run: helm upgrade --install -n ${{ github.event.inputs.environment }} hello .chart
+
+      - name: Check application
+        run: |
+          helm list -n ${{ github.event.inputs.environment }}
+          kubectl get all -n ${{ github.event.inputs.environment }}
+          kubectl port-forward svc/hello -n ${{ github.event.inputs.environment }} &
+          curl 127.0.0.1:8080
+
+

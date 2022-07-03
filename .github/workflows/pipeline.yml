@@ -77,7 +77,7 @@ jobs:
         run: |
           helm list -n default
           kubectl get all -n default
-          minikube service hello --url
+          kubectl port-forward svc/hello &
           curl 127.0.0.1:8080
 
 
